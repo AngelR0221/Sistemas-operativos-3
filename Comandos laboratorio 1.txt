@@ -1,0 +1,90 @@
+Practica 2: Configuración de parámetros de red
+ifconfig
+ping 8.8.8.8
+clear
+nmtui
+ifconfig
+ping 8.8.8.8
+sudo ifconfig ens160 192.168.50.189
+sudo systemctl restart NetworkManager
+clear
+ifconfig
+sudo vi resolv.conf
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+ifconfig
+clear
+ping 8.8.8.8
+
+
+Practica 3: Gestion de Usuario y grupos
+
+sudo useradd angelroj
+groups angelroj
+sudo usermod -aG wheel angelroj
+groups angelroj
+sudo useradd guest
+sudo usermod -aG guest angelroj
+sudo userdel -r guest
+sudo groupadd guest
+sudo groupdel guest
+
+Practica 4: Gestion de Permisos de archivos
+
+mkdir materia
+ls
+cd materia/
+cd ..
+rm -r materia
+ls
+vi estudiante.txt
+Nombre: Angel Rojas
+Matricula: 20240484
+ls
+ls -l
+chmod  700 estudiante.txt 
+ls -l
+chmod 070 estudiante.txt 
+ls -l
+mkdir materia 2
+ls
+clear
+cp estudiante.txt materia2
+ls -l
+chmod 777 estudiante.txt
+cp estudiante.txt materia2
+ls
+cd ..
+cd materia2
+ls
+cd ..
+cd materia
+ls
+cd materia
+ls
+cd ..
+cp estudiante.txt to materia
+cp estudiante.txt materia
+cd materia
+ls
+cd ..
+ls
+mkdir materia2
+ls
+rm -r materia2
+ls
+mkdir materia2
+cp estudiante.txt materia2
+cd materia
+ls
+cd ..
+ls
+rm -r materia2
+rm -r materia
+rm -r estudiante.txt
+ls
+rm -r 2
+ls
+cd ..
+rm -r materia
+ls
