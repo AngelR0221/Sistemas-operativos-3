@@ -1,0 +1,55 @@
+PRACTICA 1
+
+sudo su
+sudo dnf update
+dnf repolist all
+dnf search bastop
+yum install epel-release
+yum install snapd
+systemctl status snapd
+systemctl start snapd
+snap install bashtop
+snap run bashtop
+snap remove bashtop
+dnf remove snapd
+dnf autoremove snap
+dnf autoremove snapd
+
+
+PRACTICA 2
+
+sudo su
+nano /etc/crontab
+contrab -e
+contrab -e
+0 23 * * * dnf -y update
+0 3 * * * reboot
+crontab -e
+systemctl start atd
+systemctl enable atd
+systemctl status atd
+ls /tmp
+echo "rm -rf /tmp/*" | at now +1 minute
+atq
+ls /tmp
+
+PRACTICA 3 
+
+lsblk
+sudo fdisk /dev/nvme0n2
+lsblk
+sudo mkfs.ext4 /dev/nvme0n2p1
+cd ~/Escritorio
+ls
+mkdir disco1
+ls
+sudo mount /dev/nvme0n2p1 ~/Escritorio/disco1
+ls
+ls disco1
+cd disco1
+ls
+sudo touch AdrianAlcantara.txt
+cd ..
+sudo umount ~/Escritorio/disco1
+sudo mount /dev/nvme0n2p1 /mnt
+ls /mnt
