@@ -1,0 +1,49 @@
+Practica 1
+sudo nano /etc/default/grub
+timeout=20
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+reboot
+rd.break
+mount -o remount,rw /sysroot
+chroot /sysroot
+passwd
+touch /.autorelabel
+exit
+exit
+
+Practica 2
+
+sudo nano backup_home.sh
+#!/bin/bash
+FECHA=$(date '+%d-%m-%Y:%H:%M')
+tar -cvzf /home/$(whoami)/backup_home_$FECHA.tar.gz /home/$(whoami)
+sudo chmod +x bakcup_home.sh
+./backup_home.sh
+ls -l
+
+sudo nano ifconfig.sh
+read -p "Ingrese el nombre del archivo:" nombre
+ifconfig myor q /home/$(whoami)/Escritorio/"$nombre".txt
+echo "El archivo se ha guardado en el escritorio con el nombre $nombre.txt"
+sudo chmod +x ifconfig.sh
+./ifconfig.sh
+cd /home/angelr/Escritorio
+ls -l
+cat nombre.txt.txt
+
+
+
+Practica 3
+
+ipconfig
+ifconfig
+sudo dnf install openssh-server
+sudo systemctl start sshd
+sudo systemctl status sshd
+ssh angelr@192.168.50.85
+cd /home/nombre/Escritorio
+ls 
+exit
+ssh-keygen
+sudo nano authorized_keys
+ssh angelr@192.168.50.85
