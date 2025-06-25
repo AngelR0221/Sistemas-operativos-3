@@ -1,4 +1,7 @@
-Practica 2: Configuración de parámetros de red
+============================================ ============================================
+COMANDOS USADOS PARA Practica 2: Configuración de parámetros de red
+============================================ ============================================
+
 ifconfig
 ping 8.8.8.8
 clear
@@ -16,8 +19,9 @@ ifconfig
 clear
 ping 8.8.8.8
 
-
-Practica 3: Gestion de Usuario y grupos
+============================================ ============================================
+COMANDOS USADOS PARA Practica 3: Gestion de Usuario y grupos
+============================================ ============================================
 
 sudo useradd angelroj
 groups angelroj
@@ -29,7 +33,9 @@ sudo userdel -r guest
 sudo groupadd guest
 sudo groupdel guest
 
-Practica 4: Gestion de Permisos de archivos
+============================================ ============================================
+COMANDOS USADOS PARA Practica 4: Gestion de Permisos de archivos
+============================================ ============================================
 
 mkdir materia
 ls
