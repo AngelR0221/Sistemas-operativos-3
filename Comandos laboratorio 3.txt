@@ -1,4 +1,6 @@
-Practica 1
+============================================
+COMANDOS USADOS PARA PRACTICA 1
+============================================
 sudo nano /etc/default/grub
 timeout=20
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
@@ -11,7 +13,9 @@ touch /.autorelabel
 exit
 exit
 
-Practica 2
+============================================
+COMANDOS USADOS PARA PRACTICA 2
+============================================
 
 sudo nano backup_home.sh
 #!/bin/bash
@@ -19,11 +23,13 @@ FECHA=$(date '+%d-%m-%Y:%H:%M')
 tar -cvzf /home/$(whoami)/backup_home_$FECHA.tar.gz /home/$(whoami)
 sudo chmod +x bakcup_home.sh
 ./backup_home.sh
+cd /home/angelr
+ls
 ls -l
-
 sudo nano ifconfig.sh
-read -p "Ingrese el nombre del archivo:" nombre
-ifconfig myor q /home/$(whoami)/Escritorio/"$nombre".txt
+#!/bin/bash
+read -p "Ingrese el nombre del archivo" nombre
+ifconfig >/home/$(whoami)/Escritorio/"$nombre".txt
 echo "El archivo se ha guardado en el escritorio con el nombre $nombre.txt"
 sudo chmod +x ifconfig.sh
 ./ifconfig.sh
@@ -32,18 +38,24 @@ ls -l
 cat nombre.txt.txt
 
 
-
-Practica 3
+============================================
+COMANDOS USADOS PARA PRACTICA 3
+============================================
 
 ipconfig
 ifconfig
+ping 192.168.50.85
 sudo dnf install openssh-server
 sudo systemctl start sshd
 sudo systemctl status sshd
 ssh angelr@192.168.50.85
-cd /home/nombre/Escritorio
-ls 
+ls
+ls
+cd..
+ls
 exit
+C:\Users\David Rojas/.ssh/id_ed25519.pub
+notepad C:\Users\David Rojas/.ssh/id_ed25519.pub
 ssh-keygen
 sudo nano authorized_keys
 ssh angelr@192.168.50.85
