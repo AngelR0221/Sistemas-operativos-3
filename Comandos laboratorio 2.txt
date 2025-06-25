@@ -1,5 +1,6 @@
-PRACTICA 1
-
+============================================
+COMANDOS USADOS PARA PRACTICA 1
+============================================
 sudo su
 sudo dnf update
 dnf repolist all
@@ -15,8 +16,9 @@ dnf remove snapd
 dnf autoremove snap
 dnf autoremove snapd
 
-
-PRACTICA 2
+============================================
+COMANDOS USADOS PARA PRACTICA 2
+============================================
 
 sudo su
 nano /etc/crontab
@@ -33,7 +35,9 @@ echo "rm -rf /tmp/*" | at now +1 minute
 atq
 ls /tmp
 
-PRACTICA 3 
+============================================
+COMANDOS USADOS PARA PRACTICA 3 
+============================================
 
 lsblk
 sudo fdisk /dev/nvme0n2
