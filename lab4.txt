@@ -1,0 +1,47 @@
+Practica 1
+
+dnf install httpd 
+systemctl start httpd
+systemctl enable httpd
+systemctl status httpd
+cd /var/www/html
+mkdir angel
+cd angel
+ls
+nano index.html
+Nano /etc/httpd/conf/httpd.conf
+nano /etc/hosts
+cd /var/www/html
+ls
+mkdir angelr
+cd angelr
+nano index.html
+nano /etc/httpd/conf/httpd.conf
+
+Practica 2
+
+dnf install postfix 
+firewall-cmd --permanent --add-port=25/tcp
+firewall-cmd --permanent --add-port=465/tcp
+firewall-cmd --permanent --add-port=587/tcp
+firewall-cmd --reload
+nano /etc/postfix/main.cf
+nano /etc/postfix/sasl_passwd
+chmod 600 /etc/postfix/sasl_passwd
+postmap /etc/postfix/sasl_passwd
+systemctl restart postfix
+nano gmail.txt
+mail -s "MambruSeFueALaGuerra" os3conadrian@gmail.com < gmail.txt
+
+Practica 3
+
+dnf install cups
+systemctl enable --now cups
+systemctl status cups
+firewall-cmd --permanent --add-por=631/tcp
+firewall-cmd --reload
+nano/etc/cups/cupsd.conf
+allow from 
+systemctl restart cups
+cupsctl --remote-admin --remote-any --share-printers
+dnf install cups cups.pdf
