@@ -1,4 +1,4 @@
-Practica 1
+COMANDOS UTILIZADOS PARA LA PRACTICA NUMERO 1
 
 dnf install httpd 
 systemctl start httpd
@@ -18,7 +18,7 @@ cd angelr
 nano index.html
 nano /etc/httpd/conf/httpd.conf
 
-Practica 2
+COMANDOS UTILIZADOS PARA LA PRACTICA 2
 
 dnf install postfix 
 firewall-cmd --permanent --add-port=25/tcp
@@ -33,7 +33,7 @@ systemctl restart postfix
 nano gmail.txt
 mail -s "MambruSeFueALaGuerra" os3conadrian@gmail.com < gmail.txt
 
-Practica 3
+COMANDOS UTILIZADOS PARA LA PRACTICA NUMERO 1
 
 dnf install cups
 systemctl enable --now cups
