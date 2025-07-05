@@ -1,0 +1,111 @@
+COMANDOS UTILIZADOS PARA LA PRACTICA 1
+
+VM1
+
+mkdir archivos
+cd archivos
+touch qtal{1..100}
+
+VM2
+mkdir sync
+cd sync
+ls
+ls -l
+
+Permisos VM1
+sudo chmod 777 archivos
+PERMISOS VM2
+sudo chmod 707 sync
+
+VM1
+rsync -avz /home/angelr/archivos/ angelr@192.168.50.50:/home/angelr/sync/
+
+VM2
+ls
+
+VM1
+nano script.sh 
+#!/bin/bash
+rsync -avz /home/angelr/archivos/ angelr@192.168.50.50:/home/angelr/sync/
+sudo chmod +x /script.sh
+crontab -e
+* * * * * /home/angelr/script.sh
+touch hola{1..10}
+
+VM2
+ls
+
+COMANDOS UTILIZADOS PARA LA PRACTICA #2
+
+#VM1 Y #VM2
+sudo dnf config-manager --set-enabled highavailability
+sudo dnf install pacemaker -y
+sudo firewall-cmd --permanent --add-service=high-availability
+sudo firewall-cmd --reload
+sudo dnf install pcs -y
+sudo systemctl enable pcsd --now
+echo "12345" | sudo passwd --stdin hacluster
+----------------------------------------------
+sudo pcs host auth node1 addr=192.168.50.100 node2 addr=192.168.50.85 -u hacluster -p 12345
+sudo pcs cluster setup pacemaker1 node1 addr=192.168.50.100 node2 addr=192.168.50.85
+sudo pcs cluster start --all
+sudo systemctl start pacemaker.service
+sudo pcs cluster enable --all
+sudo systemctl enable pacemaker.service
+
+#VM1
+//Solo en uno de los nodos
+sudo pcs property set stonith-enabled=false
+sudo pcs resource create ClusterIP ocf:heartbeat:IPaddr2 ip=192.168.50.200 cidr_netmask=24 op monitor interval=30s
+
+COMANDOS UTILIZADOS PARA LA PRACTICA #3
+
+systemctl start httpd
+systemctl status httpd
+ip a
+dnf install keepalived -y
+cd /etc/keepalived/
+ls
+rm -rf *
+ls
+nano keepalived.conf
+
+VM 1
+vrrp_instance VI_1 {
+    state MASTER
+    interface ens160
+    virtual_router_id 51
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass forniteylol
+    }
+    virtual_ipaddress {
+        192.168.50.200
+    }
+}
+
+VM 2
+vrrp_instance VI_1 {
+    state BACKUP
+    interface ens160
+    virtual_router_id 51
+    priority 50
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass forniteylol
+    }
+    virtual_ipaddress {
+        192.168.50.200
+    }
+}
+
+sudo firewall-cmd --permanent --add-rich-rule='rule protocol value=112 accept'
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --reload
+
+systemctl start keepalived
+systemctl restart keepalived
+
