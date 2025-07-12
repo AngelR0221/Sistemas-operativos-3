@@ -1,0 +1,219 @@
+----------------------------------
+PRACTICA LABORATORIO 1
+
+dnf install gnupg2 -y
+
+mkdir secreto
+cd secreto
+nano codigosec.txt
+ls
+gpg2 -c codigosec.txt
+ls
+cat codigosec.txt
+gpg2 -d codigosec.txt
+
+------------------------------
+
+PRACTICA LABORATORIO 2
+
+sudo systemctl stop firewalld
+
+sudo dnf install httpd vsftpd openssh-server -y
+
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+sudo systemctl start vsftpd
+sudo systemctl enable vsftpd
+
+sudo systemctl start sshd
+sudo systemctl enable sshd
+
+sudo systemctl status httpd
+sudo systemctl status vsftpd
+sudo systemctl status sshd
+
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 21 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+#HOST
+1)en el navegador poner ip de la vm
+2)conectarse por ssh a la vm
+3)ftp (ip de la vm)
+
+sudo iptables -D INPUT -p tcp --dport 80 -j ACCEPT
+sudo iptables -D INPUT -p tcp --dport 21 -j ACCEPT
+sudo iptables -D INPUT -p tcp --dport 22 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 80 -j REJECT
+sudo iptables -A INPUT -p tcp --dport 21 -j REJECT
+sudo iptables -A INPUT -p tcp --dport 22 -j REJECT
+
+#HOST
+1)recargar la pagina
+2)mostrar cmd o powershell del ssh
+3)mostrar cmd o powershell del ftp
+
+sudo iptables -D INPUT -p tcp --dport 80 -j REJECT
+sudo iptables -D INPUT -p tcp --dport 21 -j REJECT
+sudo iptables -D INPUT -p tcp --dport 22 -j REJECT
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 21 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+#HOST
+1)en el navegador poner ip de la vm
+2)conectarse por ssh a la vm
+3)ftp (ip de la vm)
+
+sudo systemctl start firewalld
+
+sudo firewall-cmd --zone=public --remove-service=http --permanent
+sudo firewall-cmd --zone=public --remove-service=ftp --permanent
+sudo firewall-cmd --zone=public --remove-service=ssh --permanent
+sudo firewall-cmd --reload
+
+#HOST
+1)recargar la pagina
+2)mostrar cmd o powershell del ssh
+3)mostrar cmd o powershell del ftp
+
+sudo firewall-cmd --zone=public --add-service=http --permanent
+sudo firewall-cmd --zone=public --add-service=ftp --permanent
+sudo firewall-cmd --zone=public --add-service=ssh --permanent
+sudo firewall-cmd --zone=public --remove-port=21/tcp --permanent
+sudo firewall-cmd --reload
+
+#HOST
+1)en el navegador poner ip de la vm
+2)conectarse por ssh a la vm
+3)ftp (ip de la vm)
+
+---------------------------------
+
+PRACTICA LABORATORIO 3
+
+#Actualizar el sistema y habilitar los repositorios necesarios#
+
+
+sudo dnf update -y
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+sudo subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms
+sudo dnf config-manager --set-enabled crb
+sudo dnf  upgrade -y
+
+
+#configuracion de librerias#
+
+sudo nano /etc/ld.so.conf.d/local.conf
+/usr/local/lib
+/usr/local/lib64
+
+#Actualizar Cache de liberias#
+
+sudo ldconfig
+
+
+#Instalar las dependencias necesarias para compilar Snort#
+
+sudo dnf install flex bison gcc gcc-c++ make cmake autoconf libtool git nano unzip wget \
+    libpcap-devel pcre-devel libdnet-devel hwloc-devel openssl-devel zlib-devel \
+    luajit-devel pkgconfig pkgconf libunwind-devel libnfnetlink-devel \
+    libnetfilter_queue-devel libmnl-devel xz-devel gperftools libuuid-devel \
+    hyperscan hyperscan-devel -y
+
+
+#instalar libdaq#
+
+git clone https://github.com/snort3/libdaq.git 
+cd libdaq/ 
+./bootstrap 
+./configure && make && sudo make install 
+sudo ldconfig 
+cd ../ 
+
+Instalar PCRE2 y sus archivos de desarrollo
+
+sudo dnf install pcre2 pcre2-devel -y
+
+
+#instalar SNORT#
+
+git clone https://github.com/snort3/snort3.git 
+cd snort3 
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH 
+export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH 
+export CFLAGS="-O3" 
+export CXXFLAGS="-O3 -fno-rtti" 
+./configure_cmake.sh --prefix=/usr/local/snort --enable-tcmalloc 
+cd build/ 
+make -j$(nproc) 
+sudo make -j$(nproc) install 
+cd ../../ 
+sudo ldconfig 
+/usr/local/snort/bin/snort
+
+sudo ln -s /usr/local/snort/bin/snort /usr/bin/snort
+
+#Verificar SNORT#
+snort -V
+
+#Configurar SNORT#
+
+sudo nano /usr/local/snort/etc/snort/snort.lua
+       HOME_NET = '192.168.50.100/24'
+
+#Verificación SNORT#
+
+snort -T -c /usr/local/snort/etc/snort/snort.lua
+
+#Reglas Locales#
+
+nano /usr/local/snort/etc/snort/local.lua
+	
+	alert icmp any any -> any any ( msg:"ICMP Traffic Detected"; sid:10000001; metadata:policy security-ips alert; )
+
+sudo ip link set dev ens160 promisc on
+
+sudo snort -c /usr/local/snort/etc/snort/snort.lua -R /usr/local/snort/etc/snort/local.lua -i ens160 -A alert_fast -s 65535 -k none
+
+#HOST
+hacer ping a la vm
+
+#Alerta por FTP#
+
+nano /usr/local/snort/etc/snort/local.lua
+
+alert tcp any any <> any 21 (msg:"FTP Traffic Detected Port 21"; sid:10000003; rev:1;)
+
+sudo snort -c /usr/local/snort/etc/snort/snort.lua -R /usr/local/snort/etc/snort/local.lua -i ens160 -A alert_fast -s 65535 -k none
+
+#HOST
+ftp (ip vm)
+-----
+
+nano /usr/local/snort/etc/snort/local.lua
+
+alert tcp any any <> any 22 (msg:"SSH Traffic Detected Port 22"; sid:10000004; rev:1;)
+
+sudo snort -c /usr/local/snort/etc/snort/snort.lua -R /usr/local/snort/etc/snort/local.lua -i ens160 -A alert_fast -s 65535 -k none
+
+#HOST
+ssh a la vm
+
+nano /usr/local/snort/etc/snort/local.lua
+
+alert tcp any any <> any 80 (msg:"HTTP Traffic Detected Port 80"; sid:10000005; rev:1;)
+
+sudo snort -c /usr/local/snort/etc/snort/snort.lua -R /usr/local/snort/etc/snort/local.lua -i ens160 -A alert_fast -s 65535 -k none
+
+COMO ME FUNCIONO:
+
+Eliminando el parámetro 
+metadata:policy security-ips alert;
+alert tcp any any <> any 21 (msg:"FTP Traffic Detected Port 21"; sid:10000003; rev:1;)
+alert tcp any any <> any 22 (msg:"SSH Traffic Detected Port 22"; sid:10000004; rev:1;)
+alert tcp any any <> any 80 (msg:"HTTP Traffic Detected Port 80"; sid:10000005; rev:1;)
+
+#HOST
+entrar a la ip de la vm por el navegador
