@@ -1,10 +1,10 @@
 COMANDOS UTILIZADOS PARA LA PRACTICA 1
 
-#En el servidor Rocky Linux, instalamos la herramienta NFS:
+#En el servidor Rocky Linux, instalamos la herramienta NFS:#
 
 sudo dnf install nfs-utils -y
 
-#Luego iniciamos, habilitamos y verificamos el estado del servicio:
+#Luego iniciamos, habilitamos y verificamos el estado del servicio:#
 
 sudo systemctl start nfs-server
 sudo systemctl enable nfs-server
