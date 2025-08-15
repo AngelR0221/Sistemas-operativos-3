@@ -215,6 +215,10 @@ alert tcp any any <> any 21 (msg:"FTP Traffic Detected Port 21"; sid:10000003; r
 alert tcp any any <> any 22 (msg:"SSH Traffic Detected Port 22"; sid:10000004; rev:1;)
 alert tcp any any <> any 80 (msg:"HTTP Traffic Detected Port 80"; sid:10000005; rev:1;)
 
+pass tcp any any <> any 21 (msg:"Ignoring FTP Traffic Port 21"; sid:10000003; rev:2;)
+pass tcp any any <> any 22 (msg:"Ignoring SSH Traffic Port 22"; sid:10000004; rev:2;)
+pass tcp any any <> any 80 (msg:"Ignoring HTTP Traffic Port 80"; sid:10000005; rev:2;)
+
 PRACTICA 4
 
 Comandos utilizados, práctica laboratorio 6.4: Seguridad en Linux.
@@ -277,4 +281,5 @@ ssh ferna@192.168.1.13
 # Se pedirá contraseña y luego código de Google Authenticator
 #HOST
 entrar a la ip de la vm por el navegador
+
 
