@@ -282,4 +282,16 @@ ssh ferna@192.168.1.13
 #HOST
 entrar a la ip de la vm por el navegador
 
+Instalacion FTP
+
+sudo dnf install -y vsftpd && \
+sudo systemctl enable --now vsftpd && \
+sudo cp /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.bak && \
+sudo sed -i 's/^anonymous_enable=.*/anonymous_enable=NO/' /etc/vsftpd/vsftpd.conf && \
+sudo sed -i 's/^#\?local_enable=.*/local_enable=YES/' /etc/vsftpd/vsftpd.conf && \
+sudo sed -i 's/^#\?write_enable=.*/write_enable=YES/' /etc/vsftpd/vsftpd.conf && \
+sudo sed -i 's/^#\?chroot_local_user=.*/chroot_local_user=YES/' /etc/vsftpd/vsftpd.conf && \
+sudo systemctl restart vsftpd && \
+sudo firewall-cmd --permanent --add-service=ftp && \
+sudo firewall-cmd --reload
 
